@@ -3,7 +3,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useId } from "react";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contactsOps";
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -26,8 +26,8 @@ export default function ContactForm() {
   const nameFieldId = useId();
   const numberFieldId = useId();
 
-  const handleSubmit = (values, actions) => {
-    dispatch(addContact({ ...values }));
+  const handleSubmit = ({ name, number }, actions) => {
+    dispatch(addContact({ name, number }));
     actions.resetForm();
   };
 
@@ -48,7 +48,7 @@ export default function ContactForm() {
             name="name"
             id={nameFieldId}
           />
-          <ErrorMessage className={css.error} name="name" component="span" />
+          <ErrorMessage className={css.error} name="name" as="span" />
         </div>
         <div className={css.wrap}>
           <label className={css.label} htmlFor={numberFieldId}>
@@ -60,7 +60,7 @@ export default function ContactForm() {
             name="number"
             id={numberFieldId}
           />
-          <ErrorMessage className={css.error} name="number" component="span" />
+          <ErrorMessage className={css.error} name="number" as="span" />
         </div>
 
         <button className={css.button} type="submit">
